@@ -26,6 +26,7 @@ public class OkHttpManager {
                         builder.addInterceptor(interceptor);
                     }
 
+                    builder.addInterceptor(new ResponseInterceptor());
                     builder.addNetworkInterceptor(new NetInterceptor());
                     builder.connectTimeout(30, TimeUnit.SECONDS);
                     builder.readTimeout(30, TimeUnit.SECONDS);
@@ -46,4 +47,14 @@ public class OkHttpManager {
         }
     }
 
+    static class ResponseInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response response = chain.proceed(chain.request());
+            return response.newBuilder()
+                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                    .build();
+        }
+    }
 }
