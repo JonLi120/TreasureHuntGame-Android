@@ -2,8 +2,10 @@ package com.unikfunlearn.treasurehuntgame.viewmodel;
 
 import com.unikfunlearn.treasurehuntgame.core.BaseViewModel;
 import com.unikfunlearn.treasurehuntgame.models.DownloadResponse;
-import com.unikfunlearn.treasurehuntgame.models.tables.Act;
+import com.unikfunlearn.treasurehuntgame.models.SchoolResponse;
+import com.unikfunlearn.treasurehuntgame.models.tables.Game;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
+import com.unikfunlearn.treasurehuntgame.models.tables.School;
 import com.unikfunlearn.treasurehuntgame.repo.DataRepository;
 
 import java.util.List;
@@ -13,6 +15,9 @@ import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainViewModel extends BaseViewModel {
     private DataRepository repository;
@@ -32,24 +37,45 @@ public class MainViewModel extends BaseViewModel {
                         throw new RuntimeException("Data download failed.");
                     }
                     return Single.just(downloadResponse);
+                }).flatMap((Function<DownloadResponse, SingleSource<Integer>>) status -> {
+                    Call<SchoolResponse> call = repository.callSchoolApi();
+                    Response<SchoolResponse> response = call.execute();
+                    if (response.isSuccessful()) {
+
+                        repository.delSchoolAll();
+
+                        SchoolResponse body = response.body();
+                        assert body != null;
+                        List<SchoolResponse.SchoolBean> list = body.getSchool();
+
+                        for (SchoolResponse.SchoolBean item : list) {
+                            School school = new School();
+                            school.setSCID(item.getSCID());
+                            school.setName(item.getName());
+                            repository.insertSchool(school);
+                        }
+                        return Single.just(body.getCode());
+                    } else {
+                        throw new RuntimeException("Call school api failed.");
+                    }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
     }
 
-    public void insertData(DownloadResponse response) {
+    private void insertData(DownloadResponse response) {
         repository.delActAll();
         repository.delQuestionAll();
 
         List<DownloadResponse.ActivityBean> actList = response.getActivity();
         for (DownloadResponse.ActivityBean item : actList) {
-            Act act = new Act();
-            act.setAID(item.getAID());
-            act.setSCID(item.getSCID());
-            act.setSchool(item.getSchool());
-            act.setTitle(item.getTitle());
-            act.setContent(item.getContent());
-            repository.insertAct(act);
+            Game game = new Game();
+            game.setAID(item.getAID());
+            game.setSCID(item.getSCID());
+            game.setSchool(item.getSchool());
+            game.setTitle(item.getTitle());
+            game.setContent(item.getContent());
+            repository.insertAct(game);
 
             List<DownloadResponse.ActivityBean.QuestionBean> qList = item.getQuestion();
             for (DownloadResponse.ActivityBean.QuestionBean item2 : qList) {

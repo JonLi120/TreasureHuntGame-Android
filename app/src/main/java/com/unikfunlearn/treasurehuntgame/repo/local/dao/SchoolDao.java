@@ -1,17 +1,17 @@
 package com.unikfunlearn.treasurehuntgame.repo.local.dao;
 
-import com.unikfunlearn.treasurehuntgame.models.tables.Act;
+import com.unikfunlearn.treasurehuntgame.models.tables.School;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 @Dao
-public interface ActDao {
+public interface SchoolDao {
 
     @Insert
-    void insert(Act act);
+    void insertSchool(School school);
 
-    @Query("delete from act_table")
+    @Query("delete from school_table")
     void delAll();
 }

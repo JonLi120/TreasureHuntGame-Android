@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "question_table", foreignKeys = @ForeignKey(entity = Act.class, parentColumns = "AID", childColumns = "AID", onUpdate = CASCADE, onDelete = CASCADE),
+@Entity(tableName = "question_table", foreignKeys = @ForeignKey(entity = Game.class, parentColumns = "AID", childColumns = "AID", onUpdate = CASCADE, onDelete = CASCADE),
 indices = @Index("AID"))
 public class Question {
     @PrimaryKey(autoGenerate = true)

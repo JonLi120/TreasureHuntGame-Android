@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
 
         viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(MainViewModel.class);
 
-        Glide.with(this).load(R.drawable.bg_common).into(bgImg);
+        Glide.with(this).load(R.drawable.bg_launch).into(bgImg);
         Glide.with(this).load(R.drawable.ic_logo).into(img);
     }
 
