@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
 
-    protected AppCompatActivity activity;
+    protected AppCompatActivity mActivity;
     protected BaseApplication baseApplication;
 
     public BaseFragment() {
@@ -17,12 +17,12 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (AppCompatActivity) context;
+        this.mActivity = (AppCompatActivity) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activity = null;
+        mActivity = null;
     }
 }

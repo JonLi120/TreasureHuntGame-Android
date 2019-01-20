@@ -10,6 +10,7 @@ import com.unikfunlearn.treasurehuntgame.repo.DataRepository;
 
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,9 +22,14 @@ import retrofit2.Response;
 
 public class MainViewModel extends BaseViewModel {
     private DataRepository repository;
+    private MutableLiveData<List<Game>> games = new MutableLiveData<>();
 
     MainViewModel(DataRepository repository) {
         this.repository = repository;
+    }
+
+    public MutableLiveData<List<Game>> getGames() {
+        return games;
     }
 
     public void download() {
@@ -95,5 +101,12 @@ public class MainViewModel extends BaseViewModel {
                 repository.insertQuestion(question);
             }
         }
+    }
+
+    public void getGame(int id) {
+        disposable.add(Single.fromCallable(() -> repository.getGameByAID(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(games1 -> games.postValue(games1)));
     }
 }

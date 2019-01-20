@@ -33,6 +33,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_back"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,7 +73,7 @@
         android:gravity="center_horizontal"
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
-        android:text="請選擇貴單位"
+        android:text="請選擇您的學校"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,12 +87,22 @@
         android:gravity="center_horizontal"
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
-        android:text="請選擇活動名稱"
+        android:text="請選擇遊戲名稱"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4" />
+    
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/school_spinner"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:dropDownVerticalOffset="50dp"
+        app:layout_constraintStart_toStartOf="@id/choice_school_selector"
+        app:layout_constraintEnd_toEndOf="@id/choice_school_selector"
+        app:layout_constraintBottom_toBottomOf="@id/choice_school_selector"/>
 
     <TextView
         android:id="@+id/choice_school_selector"
@@ -92,12 +110,23 @@
         android:layout_height="44dp"
         android:background="@drawable/bg_drop_down"
         android:gravity="center"
-        android:hint="請選擇學校"
+        android:textColor="@color/colorBlack"
+        android:hint="選擇學校"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.28" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/game_spinner"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:dropDownVerticalOffset="50dp"
+        app:layout_constraintStart_toStartOf="@id/choice_game_selector"
+        app:layout_constraintEnd_toEndOf="@id/choice_game_selector"
+        app:layout_constraintBottom_toBottomOf="@id/choice_game_selector"/>
 
     <TextView
         android:id="@+id/choice_game_selector"
@@ -105,7 +134,8 @@
         android:layout_height="44dp"
         android:background="@drawable/bg_drop_down"
         android:gravity="center"
-        android:hint="請選擇活動"
+        android:hint="選擇遊戲"
+        android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -116,7 +146,7 @@
         android:id="@+id/confirm_btn"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:text="確定"
+        android:text="繼續"
         android:textColor="@color/colorWhite"
         android:background="@drawable/bg_btn_blue"
         app:layout_constraintStart_toStartOf="@id/guideline"
