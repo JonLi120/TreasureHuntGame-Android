@@ -127,8 +127,20 @@
             android:layout_marginBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/return_btn"
+            app:layout_constraintBottom_toTopOf="@id/found_btn"
             tools:text="第一關問題"/>
+
+        <Button
+            android:id="@+id/found_btn"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="找不裝置嗎？"
+            android:textColor="#f53d3d"
+            android:background="@null"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/return_btn"/>
 
         <Button
             android:id="@+id/return_btn"

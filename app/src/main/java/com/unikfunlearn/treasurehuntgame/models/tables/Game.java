@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "act_table")
+@Entity(tableName = "game_table")
 public class Game {
     @PrimaryKey(autoGenerate = true)
     private int AID;

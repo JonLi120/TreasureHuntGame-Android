@@ -13,6 +13,8 @@ import com.unikfunlearn.treasurehuntgame.repo.local.dao.SchoolDao;
 import com.unikfunlearn.treasurehuntgame.repo.remote.RetrofitClient;
 import com.unikfunlearn.treasurehuntgame.repo.remote.service.DataService;
 
+import java.util.List;
+
 import io.reactivex.Single;
 import retrofit2.Call;
 
@@ -31,7 +33,7 @@ public class DataRepository {
     public DataRepository() {
         AppDatabase db = AppDatabase.getInstance(BaseApplication.getInstance());
         dataService = RetrofitClient.getInstance().getDataService();
-        gameDao = db.actDao();
+        gameDao = db.gameDao();
         questionDao = db.questionDao();
         schoolDao = db.schoolDao();
         repository = this;
@@ -67,5 +69,13 @@ public class DataRepository {
 
     public void delSchoolAll() {
         schoolDao.delAll();
+    }
+
+    public List<Game> getGameByAID(int id) {
+        return gameDao.getGameByAID(id);
+    }
+
+    public List<Question> getQuestionByAID(int id) {
+        return questionDao.getQuestionByAID(id);
     }
 }

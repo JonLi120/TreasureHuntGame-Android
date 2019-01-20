@@ -41,13 +41,16 @@ public class MainActivity extends BaseActivity {
         Glide.with(this).load(R.drawable.ic_logo).into(img);
     }
 
-    @OnClick({R.id.download_btn, R.id.upload_btn})
+    @OnClick({R.id.download_btn, R.id.upload_btn, R.id.login_btn})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.download_btn:
                 viewModel.download();
                 break;
             case R.id.upload_btn:
+                break;
+            case R.id.login_btn:
+                LoginActivity.startActivity(this);
                 break;
         }
     }
