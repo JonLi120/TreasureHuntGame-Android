@@ -26,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.unikfunlearn.treasurehuntgame.core.Constant.HTMLFROMT;
+
 public class DescriptionActivity extends BaseActivity {
 
     public static final String KEY_RID = "KEY_RID";
@@ -45,22 +47,6 @@ public class DescriptionActivity extends BaseActivity {
     Button beginBtn;
     @BindView(R.id.bg_layout)
     ConstraintLayout bgLayout;
-
-    String htmlFormat = "<html><head>\n" +
-            "        <style type=\"text/css\">\n" +
-            "        @font-face {\n" +
-            "        font-family: gotham_symbol;\n" +
-            "        src: local('Hannotate TC'), format('truetype')\n" +
-            "        }\n" +
-            "        body {\n" +
-            "        word-wrap:break-word;\n" +
-            "        font-family: gotham_symbol;\n" +
-            "        font-size: 12pt;\n" +
-            "        }\n" +
-            "        </style>\n" +
-            "        </head><body leftmargin=\"0\" topmargin=\"0\">\n" +
-            "        %s\n" +
-            "        </body></html>";
 
     private MainViewModel viewModel;
     private Game game;
@@ -87,7 +73,7 @@ public class DescriptionActivity extends BaseActivity {
         viewModel.getGames().observe(this, list ->{
             if (list.size() > 0) {
                 game = list.get(0);
-                String html = String.format(htmlFormat, game.getContent());
+                String html = String.format(HTMLFROMT, game.getContent());
                 webview.loadData(html, "text/html", null);
             }
         });

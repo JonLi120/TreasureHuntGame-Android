@@ -81,6 +81,7 @@ public class MainViewModel extends BaseViewModel {
             game.setSchool(item.getSchool());
             game.setTitle(item.getTitle());
             game.setContent(item.getContent());
+            game.setNote(item.getNote());
             repository.insertAct(game);
 
             List<DownloadResponse.ActivityBean.QuestionBean> qList = item.getQuestion();
@@ -98,6 +99,7 @@ public class MainViewModel extends BaseViewModel {
                 question.setSkip(item2.getSkip());
                 question.setSort(item2.getSort());
                 question.setTitle(item2.getTitle());
+                question.setDistance(item2.getDistance());
                 repository.insertQuestion(question);
             }
         }

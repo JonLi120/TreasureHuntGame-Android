@@ -17,6 +17,6 @@ public interface QuestionDao {
     @Query("delete from question_table")
     void delQuestionAll();
 
-    @Query("select * from question_table where AID = :id")
+    @Query("select * from question_table where AID = :id order by sort asc")
     List<Question> getQuestionByAID(int id);
 }

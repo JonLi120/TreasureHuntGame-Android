@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.unikfunlearn.treasurehuntgame.core.BaseFragment;
+import com.unikfunlearn.treasurehuntgame.models.tables.Question;
+import com.unikfunlearn.treasurehuntgame.viewmodel.GameViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.unikfunlearn.treasurehuntgame.core.Constant.HTMLFROMT;
+
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.bg_img)
@@ -30,12 +34,8 @@ public class MainFragment extends BaseFragment {
     ImageView backBtn;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.main_lab)
     TextView mainLab;
-    @BindView(R.id.divide_line)
-    View divideLine;
     @BindView(R.id.webview)
     WebView webview;
     @BindView(R.id.qus_btn)
@@ -46,11 +46,10 @@ public class MainFragment extends BaseFragment {
     Button returnBtn;
     @BindView(R.id.bg_layout)
     ConstraintLayout bgLayout;
-    @BindView(R.id.guideline)
-    Guideline guideline;
-    @BindView(R.id.guideline2)
-    Guideline guideline2;
+
     private Unbinder unbinder;
+    private GameActivity activity;
+    private Question question;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -67,14 +66,46 @@ public class MainFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
 
         Glide.with(this).load(R.drawable.bg_common).into(bgImg);
+
+        activity = (GameActivity) mActivity;
+
+        setTitle();
+        setBtnLab();
+        setQuestion();
+
         return view;
     }
 
-    @OnClick({R.id.back_btn})
+    private void setTitle() {
+        String str = activity.getLevelTitle();
+        title.setText(str);
+        mainLab.setText(str);
+    }
+
+    private void setBtnLab() {
+        String str = activity.getLevelBtnLab();
+        qusBtn.setText(str != null? str : "回答問題");
+    }
+
+    private void setQuestion() {
+        question = activity.getCurrentQuestion();
+        if (question != null) {
+            String html = String.format(HTMLFROMT, question.getTitle());
+            webview.loadData(html, "text/html", null);
+        }
+    }
+
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
-                mActivity.finish();
+                activity.finish();
+                break;
+            case R.id.return_btn:
+                activity.finish();
+                break;
+            case R.id.qus_btn:
+                activity.goTypeFragment();
                 break;
         }
     }
@@ -83,5 +114,11 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         unbinder.unbind();
         super.onDestroyView();
+    }
+
+    void replace() {
+        setTitle();
+        setBtnLab();
+        setQuestion();
     }
 }

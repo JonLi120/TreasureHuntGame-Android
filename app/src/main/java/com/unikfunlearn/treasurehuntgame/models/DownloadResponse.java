@@ -30,6 +30,7 @@ public class DownloadResponse {
         private String school;
         private String title;
         private String content;
+        private String note;
         private List<QuestionBean> question;
 
         public int getAID() {
@@ -72,6 +73,14 @@ public class DownloadResponse {
             this.content = content;
         }
 
+        public String getNote() {
+            return note;
+        }
+
+        public void setNote(String note) {
+            this.note = note;
+        }
+
         public List<QuestionBean> getQuestion() {
             return question;
         }
@@ -94,6 +103,7 @@ public class DownloadResponse {
             private int fraction;
             private int sort;
             private boolean skip;
+            private int distance;
 
             public int getQID() {
                 return QID;
@@ -189,6 +199,14 @@ public class DownloadResponse {
 
             public void setSkip(boolean skip) {
                 this.skip = skip;
+            }
+
+            public int getDistance() {
+                return distance;
+            }
+
+            public void setDistance(int distance) {
+                this.distance = distance;
             }
         }
     }

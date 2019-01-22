@@ -9,6 +9,7 @@ import com.unikfunlearn.treasurehuntgame.models.tables.School;
 import com.unikfunlearn.treasurehuntgame.repo.local.AppDatabase;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.GameDao;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.QuestionDao;
+import com.unikfunlearn.treasurehuntgame.repo.local.dao.RecordDao;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.SchoolDao;
 import com.unikfunlearn.treasurehuntgame.repo.remote.RetrofitClient;
 import com.unikfunlearn.treasurehuntgame.repo.remote.service.DataService;
@@ -25,6 +26,7 @@ public class DataRepository {
     private GameDao gameDao;
     private QuestionDao questionDao;
     private SchoolDao schoolDao;
+    private RecordDao recordDao;
 
     public static DataRepository getInstance() {
         return repository;
@@ -36,6 +38,7 @@ public class DataRepository {
         gameDao = db.gameDao();
         questionDao = db.questionDao();
         schoolDao = db.schoolDao();
+        recordDao = db.recordDao();
         repository = this;
     }
 
@@ -77,5 +80,9 @@ public class DataRepository {
 
     public List<Question> getQuestionByAID(int id) {
         return questionDao.getQuestionByAID(id);
+    }
+
+    public int updateRecordScore(int rid, int score) {
+        return recordDao.updateRecordScore(rid, score);
     }
 }

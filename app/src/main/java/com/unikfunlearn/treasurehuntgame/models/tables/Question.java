@@ -23,6 +23,7 @@ public class Question {
     private int fraction;
     private int sort;
     private boolean skip;
+    private int distance;
 
     public int getQID() {
         return QID;
@@ -118,5 +119,13 @@ public class Question {
 
     public void setSkip(boolean skip) {
         this.skip = skip;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }

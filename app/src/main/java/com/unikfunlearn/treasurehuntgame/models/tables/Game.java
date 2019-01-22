@@ -15,6 +15,7 @@ public class Game {
     private String school;
     private String title;
     private String content;
+    private String note;
 
     public int getAID() {
         return AID;
@@ -54,5 +55,13 @@ public class Game {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

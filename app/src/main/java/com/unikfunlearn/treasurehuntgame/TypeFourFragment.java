@@ -4,22 +4,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.unikfunlearn.treasurehuntgame.core.BaseFragment;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Guideline;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +32,7 @@ import butterknife.Unbinder;
 
 import static com.unikfunlearn.treasurehuntgame.core.Constant.HTMLFROMT;
 
-public class TypeOneFragment extends BaseFragment {
+public class TypeFourFragment extends BaseFragment {
 
     @BindView(R.id.bg_img)
     ImageView bgImg;
@@ -35,30 +40,35 @@ public class TypeOneFragment extends BaseFragment {
     ImageView backBtn;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.main_lab)
     TextView mainLab;
     @BindView(R.id.divide_line)
     View divideLine;
     @BindView(R.id.webview)
     WebView webview;
-    @BindView(R.id.input_box)
-    EditText inputBox;
-    @BindView(R.id.pic_btn)
-    Button picBtn;
+    @BindView(R.id.rcv)
+    RecyclerView rcv;
     @BindView(R.id.ans_btn)
     Button ansBtn;
     @BindView(R.id.return_btn)
     Button returnBtn;
     @BindView(R.id.bg_layout)
     ConstraintLayout bgLayout;
+    @BindView(R.id.guideline)
+    Guideline guideline;
+    @BindView(R.id.guideline2)
+    Guideline guideline2;
     private Unbinder unbinder;
     private GameActivity activity;
     private Question question;
+    private MyAdapter adapter;
 
-    static TypeOneFragment newInstance() {
+    public static TypeFourFragment newInstance() {
         Bundle args = new Bundle();
 
-        TypeOneFragment fragment = new TypeOneFragment();
+        TypeFourFragment fragment = new TypeFourFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +76,7 @@ public class TypeOneFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_type_one, container, false);
+        View view = inflater.inflate(R.layout.fragment_type_four, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         Glide.with(this).load(R.drawable.bg_common).into(bgImg);
@@ -75,6 +85,16 @@ public class TypeOneFragment extends BaseFragment {
         question = activity.getCurrentQuestion();
         setTitle();
         setWeb();
+
+        rcv.setLayoutManager(new LinearLayoutManager(mActivity));
+        rcv.setHasFixedSize(true);
+        rcv.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
+
+        List<String> list = new ArrayList<>();
+        list.add("是");
+        list.add("否");
+        adapter = new MyAdapter(list);
+        rcv.setAdapter(adapter);
 
         return view;
     }
@@ -89,11 +109,10 @@ public class TypeOneFragment extends BaseFragment {
         if (question != null) {
             String html = String.format(HTMLFROMT, question.getTitle());
             webview.loadData(html, "text/html", null);
-
         }
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -103,10 +122,13 @@ public class TypeOneFragment extends BaseFragment {
                 activity.finish();
                 break;
             case R.id.ans_btn:
-                if (inputBox.getText().length() != 0) {
-                    activity.addAnswer(question.getTitle(), inputBox.getText().toString(), "", question.getFraction());
-                    getFragmentManager().popBackStack();
+                int score = 0;
+                if (adapter.getClickPos() + 1 == question.getAnswer()) {
+                    score = question.getFraction();
                 }
+                activity.addAnswer(question.getTitle(), adapter.getClickLab(),"", score);
+                getFragmentManager().popBackStack();
+                break;
         }
     }
 
@@ -115,4 +137,5 @@ public class TypeOneFragment extends BaseFragment {
         unbinder.unbind();
         super.onDestroyView();
     }
+
 }
