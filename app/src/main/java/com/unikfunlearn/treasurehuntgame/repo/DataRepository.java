@@ -3,10 +3,12 @@ package com.unikfunlearn.treasurehuntgame.repo;
 import com.unikfunlearn.treasurehuntgame.core.BaseApplication;
 import com.unikfunlearn.treasurehuntgame.models.DownloadResponse;
 import com.unikfunlearn.treasurehuntgame.models.SchoolResponse;
+import com.unikfunlearn.treasurehuntgame.models.tables.Answer;
 import com.unikfunlearn.treasurehuntgame.models.tables.Game;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
 import com.unikfunlearn.treasurehuntgame.models.tables.School;
 import com.unikfunlearn.treasurehuntgame.repo.local.AppDatabase;
+import com.unikfunlearn.treasurehuntgame.repo.local.dao.AnswerDao;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.GameDao;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.QuestionDao;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.RecordDao;
@@ -27,6 +29,7 @@ public class DataRepository {
     private QuestionDao questionDao;
     private SchoolDao schoolDao;
     private RecordDao recordDao;
+    private AnswerDao answerDao;
 
     public static DataRepository getInstance() {
         return repository;
@@ -39,6 +42,7 @@ public class DataRepository {
         questionDao = db.questionDao();
         schoolDao = db.schoolDao();
         recordDao = db.recordDao();
+        answerDao = db.answerDao();
         repository = this;
     }
 
@@ -84,5 +88,9 @@ public class DataRepository {
 
     public int updateRecordScore(int rid, int score) {
         return recordDao.updateRecordScore(rid, score);
+    }
+
+    public void insertAnswer(Answer... answers) {
+        answerDao.insert(answers);
     }
 }

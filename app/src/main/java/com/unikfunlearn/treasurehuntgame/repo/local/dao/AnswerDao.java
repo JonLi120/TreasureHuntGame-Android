@@ -9,5 +9,5 @@ import androidx.room.Insert;
 public interface AnswerDao {
 
     @Insert
-    void insert(Answer answer);
+    void insert(Answer... answer);
 }

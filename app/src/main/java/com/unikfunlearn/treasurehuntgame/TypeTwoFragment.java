@@ -134,7 +134,7 @@ public class TypeTwoFragment extends BaseFragment {
                 if (adapter.getClickPos() + 1 == question.getAnswer()) {
                     score = question.getFraction();
                 }
-                activity.addAnswer(question.getTitle(), adapter.getClickLab(),"", score);
+                activity.addAnswer(question.getTitle(), String.valueOf(adapter.getClickPos() + 1),"", score);
                 getFragmentManager().popBackStack();
                 break;
         }

@@ -151,8 +151,10 @@ public class GameActivity extends BaseActivity {
                 ((MainFragment)fragment).replace();
             }
         } else {
-            FinishActivity.startActivity(this);
+            viewModel.insertRecord(answers, totalScore, rid);
+            FinishActivity.startActivity(this, aid);
         }
+
     }
 
     public enum Level {

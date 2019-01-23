@@ -112,7 +112,7 @@ public class TypeFourFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -126,7 +126,7 @@ public class TypeFourFragment extends BaseFragment {
                 if (adapter.getClickPos() + 1 == question.getAnswer()) {
                     score = question.getFraction();
                 }
-                activity.addAnswer(question.getTitle(), adapter.getClickLab(),"", score);
+                activity.addAnswer(question.getTitle(), String.valueOf(adapter.getClickPos() + 1),"", score);
                 getFragmentManager().popBackStack();
                 break;
         }

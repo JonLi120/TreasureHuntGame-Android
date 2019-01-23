@@ -12,6 +12,6 @@ public interface RecordDao {
     @Insert
     long insertRecord(Record record);
 
-    @Query("update record_table set scores = :score where RID = :rid")
+    @Query("update record_table set scores = :score, finished = 1 where RID = :rid")
     int updateRecordScore(int rid, int score);
 }

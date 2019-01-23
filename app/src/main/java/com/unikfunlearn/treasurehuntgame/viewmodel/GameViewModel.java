@@ -5,10 +5,13 @@ import com.unikfunlearn.treasurehuntgame.models.tables.Answer;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
 import com.unikfunlearn.treasurehuntgame.repo.DataRepository;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,13 +35,15 @@ public class GameViewModel extends BaseViewModel {
                 .subscribe(list -> questions.postValue(list)));
     }
 
-    public void insertAnswer(List<Answer> list) {
-
-    }
-
     public void insertRecord(List<Answer> list, int score, int rid) {
         disposable.add(Single.fromCallable(() -> repository.updateRecordScore(rid, score))
                 .subscribeOn(Schedulers.io())
+                .flatMap((io.reactivex.functions.Function<Integer, SingleSource<?>>) i -> {
+                    Answer[] ans_arr = new Answer[list.size()];
+                    ans_arr = list.toArray(ans_arr);
+                    repository.insertAnswer(ans_arr);
+                    return Single.just(i);
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
     }

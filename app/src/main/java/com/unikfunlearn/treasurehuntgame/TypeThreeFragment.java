@@ -102,6 +102,7 @@ public class TypeThreeFragment extends BaseFragment {
                 break;
             case R.id.ans_btn:
                 activity.addAnswer(question.getTitle(), "","", question.getFraction());
+                getFragmentManager().popBackStack();
                 break;
         }
     }
