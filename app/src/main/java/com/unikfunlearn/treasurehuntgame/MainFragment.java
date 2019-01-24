@@ -95,7 +95,7 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn, R.id.found_btn})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -106,6 +106,16 @@ public class MainFragment extends BaseFragment {
                 break;
             case R.id.qus_btn:
                 activity.goTypeFragment();
+                break;
+            case R.id.found_btn:
+                if (getFragmentManager().findFragmentByTag(HintDialog.class.getSimpleName()) == null) {
+                    question = activity.getCurrentQuestion();
+                    if (question != null) {
+                        HintDialog dialog = HintDialog.newInstance(question.getHit(), question.isSkip());
+                        dialog.setCallback(() -> activity.addAnswer(question.getTitle(), "", "", 0));
+                        dialog.show(getFragmentManager(), HintDialog.class.getSimpleName());
+                    }
+                }
                 break;
         }
     }

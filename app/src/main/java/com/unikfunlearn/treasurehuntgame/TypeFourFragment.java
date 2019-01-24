@@ -64,6 +64,7 @@ public class TypeFourFragment extends BaseFragment {
     private GameActivity activity;
     private Question question;
     private MyAdapter adapter;
+    private int score;
 
     public static TypeFourFragment newInstance() {
         Bundle args = new Bundle();
@@ -122,13 +123,21 @@ public class TypeFourFragment extends BaseFragment {
                 activity.finish();
                 break;
             case R.id.ans_btn:
-                int score = 0;
-                if (adapter.getClickPos() + 1 == question.getAnswer()) {
-                    score = question.getFraction();
+                score = 0;
+                if (getFragmentManager().findFragmentByTag(AnswerDialog.class.getSimpleName()) == null) {
+                    question = activity.getCurrentQuestion();
+                    if (question != null) {
+                        if (adapter.getClickPos() + 1 == question.getAnswer()) {
+                            score = question.getFraction();
+                        }
+                        AnswerDialog dialog = AnswerDialog.newInstance(score, adapter.getClickPos() + 1 == question.getAnswer());
+                        dialog.setCallback(() -> {
+                            activity.addAnswer(question.getTitle(), String.valueOf(adapter.getClickPos() + 1), "", score);
+                            getFragmentManager().popBackStack();
+                        });
+                        dialog.show(getFragmentManager(), AnswerDialog.class.getSimpleName());
+                    }
                 }
-                activity.addAnswer(question.getTitle(), String.valueOf(adapter.getClickPos() + 1),"", score);
-                getFragmentManager().popBackStack();
-                break;
         }
     }
 

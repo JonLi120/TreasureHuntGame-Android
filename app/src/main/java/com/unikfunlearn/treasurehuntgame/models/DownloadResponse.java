@@ -102,7 +102,7 @@ public class DownloadResponse {
             private int answer;
             private int fraction;
             private int sort;
-            private boolean skip;
+            private String skip;
             private int distance;
 
             public int getQID() {
@@ -193,11 +193,11 @@ public class DownloadResponse {
                 this.sort = sort;
             }
 
-            public boolean getSkip() {
+            public String getSkip() {
                 return skip;
             }
 
-            public void setSkip(boolean skip) {
+            public void setSkip(String skip) {
                 this.skip = skip;
             }
 

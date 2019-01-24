@@ -96,7 +96,7 @@ public class MainViewModel extends BaseViewModel {
                 question.setFraction(item2.getFraction());
                 question.setHit(item2.getHit());
                 question.setQuestion(item2.getQuestion());
-                question.setSkip(item2.getSkip());
+                question.setSkip(item2.getSkip().equals("1"));
                 question.setSort(item2.getSort());
                 question.setTitle(item2.getTitle());
                 question.setDistance(item2.getDistance());
