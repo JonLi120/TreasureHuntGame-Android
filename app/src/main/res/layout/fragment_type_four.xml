@@ -113,6 +113,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="6dp"
+            android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/divide_line"
             app:layout_constraintBottom_toTopOf="@id/rcv"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,13 +1,18 @@
 package com.unikfunlearn.treasurehuntgame.viewmodel;
 
+import com.google.gson.Gson;
 import com.unikfunlearn.treasurehuntgame.core.BaseViewModel;
 import com.unikfunlearn.treasurehuntgame.models.DownloadResponse;
 import com.unikfunlearn.treasurehuntgame.models.SchoolResponse;
+import com.unikfunlearn.treasurehuntgame.models.UploadRequest;
+import com.unikfunlearn.treasurehuntgame.models.tables.Answer;
 import com.unikfunlearn.treasurehuntgame.models.tables.Game;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
+import com.unikfunlearn.treasurehuntgame.models.tables.Record;
 import com.unikfunlearn.treasurehuntgame.models.tables.School;
 import com.unikfunlearn.treasurehuntgame.repo.DataRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
@@ -23,6 +28,8 @@ import retrofit2.Response;
 public class MainViewModel extends BaseViewModel {
     private DataRepository repository;
     private MutableLiveData<List<Game>> games = new MutableLiveData<>();
+    private MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private MutableLiveData<Boolean> uploadStatus = new MutableLiveData<>();
 
     MainViewModel(DataRepository repository) {
         this.repository = repository;
@@ -32,7 +39,16 @@ public class MainViewModel extends BaseViewModel {
         return games;
     }
 
+    public MutableLiveData<Boolean> getLoading() {
+        return loading;
+    }
+
+    public MutableLiveData<Boolean> getUploadStatus() {
+        return uploadStatus;
+    }
+
     public void download() {
+        loading.postValue(true);
         disposable.add(repository.downloadData()
                 .subscribeOn(Schedulers.io())
                 .flatMap((Function<DownloadResponse, SingleSource<DownloadResponse>>) downloadResponse -> {
@@ -66,7 +82,7 @@ public class MainViewModel extends BaseViewModel {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe());
+                .subscribe(code -> loading.postValue(false), throwable -> loading.postValue(false)));
     }
 
     private void insertData(DownloadResponse response) {
@@ -110,5 +126,56 @@ public class MainViewModel extends BaseViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(games1 -> games.postValue(games1)));
+    }
+
+    public void upload() {
+        loading.postValue(true);
+        disposable.add(Single.fromCallable(() -> repository.getFinishedRecord())
+                .subscribeOn(Schedulers.io())
+                .flatMap((Function<List<Record>, SingleSource<List<UploadRequest>>>) list -> {
+                    List<UploadRequest> requests = new ArrayList<>();
+
+                    for (Record item : list) {
+                        UploadRequest request = new UploadRequest();
+                        request.setAID(item.getAID());
+                        request.setRID(item.getRID());
+                        request.setSCID(item.getSCID());
+                        request.setExplain("");
+                        request.setMClass(item.getMyClass());
+                        request.setSeatNumber(item.getSeatNumber());
+                        request.setName(item.getName());
+
+                        List<UploadRequest.AnswerBean> beanList = new ArrayList<>();
+
+                        List<Answer> answers = repository.getAnswerByRid(item.getRID());
+                        for (Answer answer : answers) {
+                            UploadRequest.AnswerBean bean = new UploadRequest.AnswerBean();
+                            bean.setTitle(answer.getTitle());
+                            bean.setAnswer(answer.getAnswer());
+                            bean.setImg(answer.getImg());
+
+                            beanList.add(bean);
+                        }
+
+                        request.setAnswer(beanList);
+                        requests.add(request);
+                    }
+
+                    return Single.just(requests);
+                }).flatMap((Function<List<UploadRequest>, SingleSource<Boolean>>) requests -> {
+                    String json = new Gson().toJson(requests);
+                    Call<ResponseBody> call = repository.callUploadApi(json);
+                    Response<ResponseBody> response = call.execute();
+                    if (response.isSuccessful()) {
+                        repository.deleteRecordAll();
+                        repository.deleteAnswerAll();
+                    }
+                    return Single.just(response.isSuccessful());
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status -> {
+                    uploadStatus.postValue(status);
+                    loading.postValue(false);
+                }, throwable -> loading.postValue(false)));
     }
 }

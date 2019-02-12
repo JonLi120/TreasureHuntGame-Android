@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.unikfunlearn.treasurehuntgame.core.BaseActivity;
@@ -133,7 +134,13 @@ public class LoginActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.confirm_btn:
-                UserActivity.startActivity(this, selectedSCID, selectedAID);
+                if (selectedSCID == -1) {
+                    Toast.makeText(this, "請選擇選校", Toast.LENGTH_LONG).show();
+                } else if (selectedAID == -1){
+                    Toast.makeText(this, "請選擇遊戲", Toast.LENGTH_LONG).show();
+                } else {
+                    UserActivity.startActivity(this, selectedSCID, selectedAID);
+                }
                 break;
         }
     }

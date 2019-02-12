@@ -3,9 +3,11 @@ package com.unikfunlearn.treasurehuntgame.repo;
 import com.unikfunlearn.treasurehuntgame.core.BaseApplication;
 import com.unikfunlearn.treasurehuntgame.models.DownloadResponse;
 import com.unikfunlearn.treasurehuntgame.models.SchoolResponse;
+import com.unikfunlearn.treasurehuntgame.models.UploadRequest;
 import com.unikfunlearn.treasurehuntgame.models.tables.Answer;
 import com.unikfunlearn.treasurehuntgame.models.tables.Game;
 import com.unikfunlearn.treasurehuntgame.models.tables.Question;
+import com.unikfunlearn.treasurehuntgame.models.tables.Record;
 import com.unikfunlearn.treasurehuntgame.models.tables.School;
 import com.unikfunlearn.treasurehuntgame.repo.local.AppDatabase;
 import com.unikfunlearn.treasurehuntgame.repo.local.dao.AnswerDao;
@@ -19,6 +21,7 @@ import com.unikfunlearn.treasurehuntgame.repo.remote.service.DataService;
 import java.util.List;
 
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class DataRepository {
@@ -74,6 +77,10 @@ public class DataRepository {
         return dataService.callSchoolApi();
     }
 
+    public Call<ResponseBody> callUploadApi(String data) {
+        return dataService.callUploadApi(data);
+    }
+
     public void delSchoolAll() {
         schoolDao.delAll();
     }
@@ -92,5 +99,21 @@ public class DataRepository {
 
     public void insertAnswer(Answer... answers) {
         answerDao.insert(answers);
+    }
+
+    public List<Record> getFinishedRecord(){
+        return recordDao.getFinishedRecord();
+    }
+
+    public List<Answer> getAnswerByRid(int rid) {
+        return answerDao.getAnswer(rid);
+    }
+
+    public void deleteRecordAll() {
+        recordDao.deleteAll();
+    }
+
+    public void deleteAnswerAll(){
+        answerDao.deleteAll();
     }
 }

@@ -41,7 +41,7 @@
         android:id="@+id/skip_btn"
         android:layout_width="200dp"
         android:layout_height="30dp"
-        android:text="跳過這題"
+        android:text="我想略過這題"
         android:textColor="#3a65c4"
         android:background="@null"
         android:layout_marginBottom="20dp"

@@ -1,10 +1,13 @@
 package com.unikfunlearn.treasurehuntgame;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Switch;
 
 import com.unikfunlearn.treasurehuntgame.core.BaseActivity;
 import com.unikfunlearn.treasurehuntgame.core.BaseFragment;
@@ -13,19 +16,33 @@ import com.unikfunlearn.treasurehuntgame.models.tables.Question;
 import com.unikfunlearn.treasurehuntgame.viewmodel.GameViewModel;
 import com.unikfunlearn.treasurehuntgame.viewmodel.ViewModelFactory;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class GameActivity extends BaseActivity {
+public class GameActivity extends BaseActivity implements BeaconConsumer {
     public static final String KEY_RID = "KEY_RID";
     public static final String KEY_AID = "KEY_AID";
+    private static final String[] PERMISSIONS = {Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
@@ -37,6 +54,12 @@ public class GameActivity extends BaseActivity {
     private List<Question> questions;
     private List<Answer> answers = new ArrayList<>();
     private int totalScore = 0;
+    private BeaconManager beaconManager;
+    private BeaconCallback callback;
+
+    public interface BeaconCallback{
+        void found(int id, int rssi);
+    }
 
     public static void startActivity(Context context, int rid, int aid) {
         Intent intent = new Intent(context, GameActivity.class);
@@ -62,6 +85,25 @@ public class GameActivity extends BaseActivity {
         rid = getIntent().getIntExtra(KEY_RID, 0);
 
         viewModel.getQuestion(aid);
+        hasPermission();
+    }
+
+    @AfterPermissionGranted(1)
+    private void hasPermission() {
+        if (EasyPermissions.hasPermissions(this, PERMISSIONS)) {
+            beaconManager = BeaconManager.getInstanceForApplication(this);
+            beaconManager.getBeaconParsers().add(new BeaconParser().
+                    setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+            beaconManager.bind(this);
+        } else {
+            EasyPermissions.requestPermissions(this, "iBeacon需要相關權限", 1, PERMISSIONS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     void goTypeFragment() {
@@ -84,6 +126,7 @@ public class GameActivity extends BaseActivity {
                     startFragment(fragment4, TypeFourFragment.class.getSimpleName(), true);
                     break;
             }
+            stopBeacon();
         }
     }
 
@@ -135,6 +178,18 @@ public class GameActivity extends BaseActivity {
         return null;
     }
 
+    void setCallback(BeaconCallback callback) {
+        this.callback = callback;
+    }
+
+    void startBeacon() {
+        hasPermission();
+    }
+
+    void stopBeacon() {
+        beaconManager.unbind(this);
+    }
+
     void addAnswer(String title, String ans, String img, int score){
         Answer answer = new Answer();
         answer.setRid(rid);
@@ -155,6 +210,34 @@ public class GameActivity extends BaseActivity {
             FinishActivity.startActivity(this, aid);
         }
 
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.removeAllMonitorNotifiers();
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0 && callback != null) {
+
+                    for (Beacon beacon : beacons) {
+                        int major = beacon.getId2().toInt();
+                        int minor = beacon.getId3().toInt();
+
+                        int id = (((major >> 4) & 0x03) << 8) | ((minor >> 8) & 0xFF);
+                        Log.w("test", beacon.getId1().toString() + " / " + Integer.toHexString(id));
+                        Log.d("test", "RSSI: " + beacon.getRssi());
+                        callback.found(Integer.valueOf(Integer.toHexString(id)), beacon.getRssi());
+                    }
+
+                }
+            }
+        });
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("F2C56DB5-DFFB-48D2-B060-D0F5A71096E0", null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("F2C56DB5-DFFB-48D2-B060-D0F5A71096E2", null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("F2C56DB5-DFFB-48D2-B060-D0F5A71096E6", null, null, null));
+        } catch (RemoteException e) {    }
     }
 
     public enum Level {
@@ -212,5 +295,11 @@ public class GameActivity extends BaseActivity {
         public String getLab3() {
             return this.s3;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        beaconManager.unbind(this);
+        super.onDestroy();
     }
 }

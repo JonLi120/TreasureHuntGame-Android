@@ -1,6 +1,7 @@
 package com.unikfunlearn.treasurehuntgame;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,14 @@ public class MainFragment extends BaseFragment {
         setBtnLab();
         setQuestion();
 
+        activity.setCallback((id, rssi) -> {
+            if (id == Integer.parseInt(question.getBluesn())) {
+                if (qusBtn != null) {
+                    qusBtn.setEnabled(true);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -90,9 +99,11 @@ public class MainFragment extends BaseFragment {
     private void setQuestion() {
         question = activity.getCurrentQuestion();
         if (question != null) {
+            activity.startBeacon();
             String html = String.format(HTMLFROMT, question.getTitle());
             webview.loadData(html, "text/html", null);
         }
+        qusBtn.setEnabled(false);
     }
 
     @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn, R.id.found_btn})

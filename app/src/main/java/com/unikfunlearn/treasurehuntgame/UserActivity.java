@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.unikfunlearn.treasurehuntgame.core.BaseActivity;
@@ -63,6 +64,8 @@ public class UserActivity extends BaseActivity {
         recordDao = db.recordDao();
 
         Glide.with(this).load(R.drawable.bg_common).into(bgImg);
+
+
     }
 
     @OnClick({R.id.back_btn, R.id.enter_btn})
@@ -72,17 +75,24 @@ public class UserActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.enter_btn:
-                Record record = new Record();
-                record.setAID(aid);
-                record.setSCID(scid);
-                record.setFinished(false);
-                record.setMyClass(classEdit.getText().toString());
-                record.setSeatNumber(seatEdit.getText().toString());
-                record.setName(nameEdit.getText().toString());
+                if (classEdit.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "請輸入您的班級", Toast.LENGTH_LONG).show();
+                } else if (seatEdit.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "請輸入您的座號", Toast.LENGTH_LONG).show();
+                } else if (nameEdit.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "請輸入您的姓名", Toast.LENGTH_LONG).show();
+                } else {
+                    Record record = new Record();
+                    record.setAID(aid);
+                    record.setSCID(scid);
+                    record.setFinished(false);
+                    record.setMyClass(classEdit.getText().toString());
+                    record.setSeatNumber(seatEdit.getText().toString());
+                    record.setName(nameEdit.getText().toString());
 
-                long id = recordDao.insertRecord(record);
-                DescriptionActivity.startActivity(this, (int)id, aid);
-
+                    long id = recordDao.insertRecord(record);
+                    DescriptionActivity.startActivity(this, (int)id, aid);
+                }
                 break;
         }
     }
