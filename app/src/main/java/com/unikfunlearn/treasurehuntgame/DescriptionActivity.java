@@ -85,7 +85,7 @@ public class DescriptionActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.back_btn, R.id.begin_btn})
+    @OnClick({R.id.back_btn, R.id.begin_btn, R.id.back_lab})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -93,6 +93,9 @@ public class DescriptionActivity extends BaseActivity {
                 break;
             case R.id.begin_btn:
                 GameActivity.startActivity(this, rid, aid);
+                break;
+            case R.id.back_lab:
+                finish();
                 break;
         }
     }

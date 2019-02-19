@@ -46,22 +46,22 @@
                     android:layout_height="wrap_content"
                     android:text="登入"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:text="離線模式"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="10dp"-->
+                    <!--android:text="離線模式"-->
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:textSize="14sp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textColor="@color/colorBlack"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:text="請選擇您的學校"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,13 +86,13 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textColor="@color/colorBlack"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:text="請選擇遊戲名稱"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.38" />
     
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/school_spinner"
@@ -111,6 +111,7 @@
         android:background="@drawable/bg_drop_down"
         android:gravity="center"
         android:textColor="@color/colorBlack"
+        android:textSize="14sp"
         android:hint="選擇學校"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -134,13 +135,14 @@
         android:layout_height="44dp"
         android:background="@drawable/bg_drop_down"
         android:gravity="center"
+        android:textSize="14sp"
         android:hint="選擇遊戲"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.48" />
 
     <Button
         android:id="@+id/confirm_btn"
@@ -148,12 +150,13 @@
         android:layout_height="44dp"
         android:text="繼續"
         android:textColor="@color/colorWhite"
+        android:textSize="16sp"
         android:background="@drawable/bg_btn_blue"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.8"/>
+        app:layout_constraintVertical_bias="0.67"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

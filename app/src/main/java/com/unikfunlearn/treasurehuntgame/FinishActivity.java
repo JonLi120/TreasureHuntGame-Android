@@ -45,8 +45,6 @@ public class FinishActivity extends BaseActivity {
     WebView webview;
     @BindView(R.id.send_btn)
     Button sendBtn;
-    @BindView(R.id.return_btn)
-    Button returnBtn;
     @BindView(R.id.bg_layout)
     ConstraintLayout bgLayout;
 

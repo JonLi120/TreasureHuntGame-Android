@@ -113,13 +113,16 @@ public class TypeFourFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn, R.id.back_lab})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
                 getFragmentManager().popBackStack();
                 break;
             case R.id.return_btn:
+                activity.finish();
+                break;
+            case R.id.back_lab:
                 activity.finish();
                 break;
             case R.id.ans_btn:

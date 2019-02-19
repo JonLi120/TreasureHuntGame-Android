@@ -1,5 +1,6 @@
 package com.unikfunlearn.treasurehuntgame;
 
+import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +83,15 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter != null) {
+            boolean status = bluetoothAdapter.enable();
+
+            if (!status) {
+
+            }
+        }
+
         return view;
     }
 
@@ -106,13 +116,16 @@ public class MainFragment extends BaseFragment {
         qusBtn.setEnabled(false);
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn, R.id.found_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.qus_btn, R.id.found_btn, R.id.back_lab})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
                 activity.finish();
                 break;
             case R.id.return_btn:
+                activity.finish();
+                break;
+            case R.id.back_lab:
                 activity.finish();
                 break;
             case R.id.qus_btn:

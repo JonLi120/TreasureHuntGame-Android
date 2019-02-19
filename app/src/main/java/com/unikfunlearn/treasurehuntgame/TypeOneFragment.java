@@ -113,7 +113,7 @@ public class TypeOneFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn, R.id.pic_btn})
+    @OnClick({R.id.back_btn, R.id.return_btn, R.id.ans_btn, R.id.pic_btn, R.id.back_lab})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -130,6 +130,9 @@ public class TypeOneFragment extends BaseFragment {
                 break;
             case R.id.pic_btn:
                 hasPermission();
+                break;
+            case R.id.back_lab:
+                activity.finish();
                 break;
         }
     }

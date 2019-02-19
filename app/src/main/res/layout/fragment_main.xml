@@ -47,11 +47,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/back_lab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="遊戲說明"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/back_btn"/>
@@ -61,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -124,6 +125,7 @@
             android:layout_height="30dp"
             android:textColor="@color/colorWhite"
             android:background="@drawable/selector_blue_btn"
+            android:textSize="16sp"
             android:layout_marginBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -136,6 +138,7 @@
             android:layout_height="30dp"
             android:text="找不到位置嗎？"
             android:textColor="#f53d3d"
+            android:textSize="16sp"
             android:background="@null"
             android:layout_marginBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,6 +151,7 @@
             android:layout_height="30dp"
             android:text="回遊戲說明"
             android:textColor="#3a65c4"
+            android:textSize="16sp"
             android:background="@null"
             android:layout_marginBottom="10dp"
             app:layout_constraintStart_toStartOf="parent"
