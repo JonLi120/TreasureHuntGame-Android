@@ -108,7 +108,7 @@ public class TypeFourFragment extends BaseFragment {
 
     private void setWeb() {
         if (question != null) {
-            String html = String.format(HTMLFROMT, question.getTitle());
+            String html = String.format(HTMLFROMT, question.getQuestion());
             webview.loadData(html, "text/html", null);
         }
     }

@@ -16,7 +16,7 @@ public class RetrofitBuilder {
             Gson gson = new GsonBuilder().setLenient().create();
 
             retrofit = new Retrofit.Builder().client(OkHttpManager.getInstance())
-                    .baseUrl("http://demo.unikfunlearn.com/")
+                    .baseUrl("http://www.unikfunlearn.com/")
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

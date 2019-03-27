@@ -1,5 +1,7 @@
 package com.unikfunlearn.treasurehuntgame.viewmodel;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.unikfunlearn.treasurehuntgame.core.BaseViewModel;
 import com.unikfunlearn.treasurehuntgame.models.DownloadResponse;
@@ -144,6 +146,7 @@ public class MainViewModel extends BaseViewModel {
                         request.setMClass(item.getMyClass());
                         request.setSeatNumber(item.getSeatNumber());
                         request.setName(item.getName());
+                        request.setScores(item.getScores());
 
                         List<UploadRequest.AnswerBean> beanList = new ArrayList<>();
 
@@ -164,6 +167,7 @@ public class MainViewModel extends BaseViewModel {
                     return Single.just(requests);
                 }).flatMap((Function<List<UploadRequest>, SingleSource<Boolean>>) requests -> {
                     String json = new Gson().toJson(requests);
+                    Log.d("test", "upload: " + json);
                     Call<ResponseBody> call = repository.callUploadApi(json);
                     Response<ResponseBody> response = call.execute();
                     if (response.isSuccessful()) {

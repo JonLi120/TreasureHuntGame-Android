@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TreasureHuntGame</string>
+    <string name="app_name">Treasure Beacon</string>
     <string name="lab_download">下載活動</string>
     <string name="lab_upload">上載成績</string>
     <string name="lab_login_game">登入遊戲</string>

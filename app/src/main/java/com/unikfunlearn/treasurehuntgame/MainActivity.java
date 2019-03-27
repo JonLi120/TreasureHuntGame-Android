@@ -3,13 +3,15 @@ package com.unikfunlearn.treasurehuntgame;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +36,8 @@ public class MainActivity extends BaseActivity {
     ImageView img;
     @BindView(R.id.bg_img)
     ImageView bgImg;
+    @BindView(R.id.version_lab)
+    TextView versionLab;
     private MainViewModel viewModel;
 
     private ProgressDialog dialog;
@@ -49,7 +53,7 @@ public class MainActivity extends BaseActivity {
 
         viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(MainViewModel.class);
 
-        viewModel.getLoading().observe(this, isLoading->{
+        viewModel.getLoading().observe(this, isLoading -> {
             if (isLoading) {
                 dialog.show();
             } else {
@@ -57,7 +61,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        viewModel.getUploadStatus().observe(this, status ->{
+        viewModel.getUploadStatus().observe(this, status -> {
             if (status) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("資料已經上傳成功");
@@ -72,6 +76,15 @@ public class MainActivity extends BaseActivity {
         Glide.with(this).load(R.drawable.ic_logo).into(img);
 
         manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        String ver = "0.0";
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            ver = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        versionLab.setText("v " + ver);
     }
 
     @OnClick({R.id.download_btn, R.id.upload_btn, R.id.login_btn})
@@ -79,7 +92,7 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.download_btn:
                 if (isFastClick()) {
-                    if (manager.getActiveNetworkInfo()!= null && manager.getActiveNetworkInfo().isConnected()) {
+                    if (manager.getActiveNetworkInfo() != null && manager.getActiveNetworkInfo().isConnected()) {
                         viewModel.download();
                     } else {
                         Toast.makeText(this, "請檢察網路是否連線", Toast.LENGTH_SHORT).show();
@@ -88,7 +101,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.upload_btn:
                 if (isFastClick()) {
-                    if (manager.getActiveNetworkInfo()!= null && manager.getActiveNetworkInfo().isConnected()) {
+                    if (manager.getActiveNetworkInfo() != null && manager.getActiveNetworkInfo().isConnected()) {
                         viewModel.upload();
                     } else {
                         Toast.makeText(this, "請檢察網路是否連線", Toast.LENGTH_SHORT).show();

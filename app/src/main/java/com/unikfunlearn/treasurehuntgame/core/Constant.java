@@ -10,7 +10,7 @@ public class Constant {
             "        body {\n" +
             "        word-wrap:break-word;\n" +
             "        font-family: gotham_symbol;\n" +
-            "        font-size: 8pt;\n" +
+            "        font-size: 12pt;\n" +
             "        }\n" +
             "        </style>\n" +
             "        </head><body leftmargin=\"0\" topmargin=\"0\">\n" +

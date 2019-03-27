@@ -177,7 +177,8 @@ public class GameActivity extends BaseActivity implements BeaconConsumer {
     }
 
     Question getCurrentQuestion() {
-        if (questions.size() > currentIndex) {
+
+        if (questions != null && (questions.size() > currentIndex)) {
             return questions.get(currentIndex);
         }
         return null;
@@ -230,9 +231,9 @@ public class GameActivity extends BaseActivity implements BeaconConsumer {
                         int minor = beacon.getId3().toInt();
 
                         int id = (((major >> 4) & 0x03) << 8) | ((minor >> 8) & 0xFF);
-                        Log.w("test", beacon.getId1().toString() + " / " + Integer.toHexString(id));
+                        Log.w("test", beacon.getId1().toString() + " / " + id);
                         Log.d("test", "RSSI: " + beacon.getRssi());
-                        callback.found(Integer.valueOf(Integer.toHexString(id)), beacon.getRssi());
+                        callback.found(id, beacon.getRssi());
                     }
 
                 }
