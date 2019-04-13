@@ -111,7 +111,7 @@ public class MainFragment extends BaseFragment {
         if (question != null) {
             activity.startBeacon();
             String html = String.format(HTMLFROMT, question.getTitle());
-            webview.loadData(html, "text/html", null);
+            webview.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
         }
         qusBtn.setEnabled(false);
     }

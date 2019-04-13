@@ -108,7 +108,7 @@ public class TypeOneFragment extends BaseFragment {
     private void setWeb() {
         if (question != null) {
             String html = String.format(HTMLFROMT, question.getQuestion());
-            webview.loadData(html, "text/html", null);
+            webview.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
 
         }
     }

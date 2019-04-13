@@ -90,7 +90,7 @@ public class HintDialog extends BaseDialogFragment {
         }
 
         String html = String.format(HTMLFROMT, content);
-        webview.loadData(html, "text/html", null);
+        webview.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
 
         return view;
     }

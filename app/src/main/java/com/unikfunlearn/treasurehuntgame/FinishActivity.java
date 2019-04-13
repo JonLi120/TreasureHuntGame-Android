@@ -70,7 +70,7 @@ public class FinishActivity extends BaseActivity {
         if (list != null && list.size() != 0) {
             Game game = list.get(0);
             String html = String.format(HTMLFROMT, game.getNote());
-            webview.loadData(html, "text/html", null);
+            webview.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
         }
     }
 

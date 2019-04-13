@@ -74,7 +74,7 @@ public class DescriptionActivity extends BaseActivity {
             if (list.size() > 0) {
                 game = list.get(0);
                 String html = String.format(HTMLFROMT, game.getContent());
-                webview.loadData(html, "text/html", null);
+                webview.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
         });
 

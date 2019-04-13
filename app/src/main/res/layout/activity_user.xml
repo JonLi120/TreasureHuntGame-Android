@@ -39,6 +39,7 @@
                     android:layout_height="24dp"
                     android:background="@drawable/ic_back"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
@@ -152,7 +153,7 @@
         android:text="進入遊戲"
         android:textSize="16sp"
         android:textColor="@color/colorWhite"
-        android:background="@drawable/bg_orange_btn_selected"
+        android:background="@drawable/selector_blue_btn"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
